@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-# Create your views here.
 
+# Create your views here.
 
 
 def article_list(request):
@@ -30,6 +30,12 @@ def article_list(request):
         "search_prompt": search_prompt
     }
 
-
-
     return render(request, "article_list.html", params)
+
+
+def article_page(request):
+    return render(request, "article_page.html")
+
+
+def main_page(request):
+    return render(request, "main_page.html")

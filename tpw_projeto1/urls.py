@@ -19,5 +19,7 @@ from wiki import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.article_list)
+    path('', views.article_list),
+    path('article_page/', views.article_page),
+    path('main/', views.main_page)
 ]
