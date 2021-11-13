@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    {% if search_prompt %}
+        <p>Results for "{{ search_prompt }}"</p>
+    {% endif %}
+    <br>
+    {% for article in articles %}
+        <div class="card mx-auto" style="width: 70%; margin-bottom: 2em">
+            <div class="card-header">
+            {{ article.title }}
+            </div>
+            <div class="card-body">
+                <div class="row card-body">
+                    <div class="col-sm-10" style="display: flex; flex-direction: column; justify-content: center">
+                        <blockquote class="blockquote mb-0">
+                            <p>{{ article.short_description }}</p>
+                        </blockquote>
+                    </div>
+                    <div class="col-sm-2">
+                        <img class="card-img" style=" position: unset" src="{{ article.main_image }}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
