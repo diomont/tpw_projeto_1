@@ -1,0 +1,45 @@
+
+# category might be an index
+
+article: [
+    category: category[]
+
+    title: text (varchar)
+    main_image: imagepath (varchar)
+    short_description: text (varchar)
+    main_text
+
+    side_card: [ (field, value) ... ]
+
+    sections: section[]
+
+    date_created,
+    date_last_modified,
+    creating_user,
+    last_modifiying_user,
+    view_count,
+
+    edit_restrictions: user level required to edit # -> an integer i guess
+
+
+    #edit_history: [
+    #    
+    #]
+]
+
+
+section: [
+    title,
+    subsections: [
+        title (optional)
+        content: text | image ...  # ->  just one long string where images have special character sequences
+    ]
+]
+
+category: [
+    name,
+    popularity,
+
+    # subcategories: category[]
+]
+
