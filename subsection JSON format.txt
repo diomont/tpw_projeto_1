@@ -1,0 +1,31 @@
+
+{
+    content: [
+        {
+            type: "text",
+            value: "João Sussius, o protagonista de 'Entre Nós' ..."
+
+            links: [
+                {
+                    text: "João Sussius"
+                    href: ".../erfe",
+                },
+                {
+                    text: "Entre Nós"
+                    href: ".../njwn",
+                },
+            ]
+        },
+        {
+            type: "image",
+            position: "right",
+            src: "url fixe",
+            width: "100px",
+            height: "80px"
+        },
+        {
+            other types...
+        },
+        ...
+    ]
+}

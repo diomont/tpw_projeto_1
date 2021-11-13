@@ -71,6 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tpw_projeto1.wsgi.application'
 
+UPLOAD_PATH = 'uploads/'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
