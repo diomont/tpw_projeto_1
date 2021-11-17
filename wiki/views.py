@@ -41,6 +41,11 @@ def article_page(request):
 def main_page(request):
     return render(request, "main_page.html")
 
+def login(request):
+    return render(request, "login.html")
+
+def createAccount(request):
+    return render(request, "createAccount.html")
 
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):

@@ -21,7 +21,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', views.article_list),
     path('article_page/', views.article_page),
-    path('', views.main_page)
+    path('', views.main_page),
+    path('login/', views.login),
+    path('createAccount/', views.createAccount)
 ]
 
 handler404 = "wiki.views.page_not_found"

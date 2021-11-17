@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="container w-75 mt-3">
+        <form>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <p>Don't have an account? <a href="http://127.0.0.1:8000/createAccount/">Create one!</a></p>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
