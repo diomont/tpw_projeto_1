@@ -6,13 +6,15 @@
 
             <div class="m-2 col-8 bg-light text-dark">
 
-                <h1 class="display-4">Title be titling</h1>
-                <div class="d-flex flex-row-reverse mb-1"><button type="button" class="btn btn-outline-secondary">Category</button></div>
-                <h6>Small description: mommy mommy mommy mommy mommy mommy mommy mommy mommy mommy mommy mommy mommy
-                    mommy.</h6>
+                <h1 class="display-4">{{ article.title }}</h1>
+                <div class="d-flex flex-row-reverse mb-1">
+                    {% for category in article.categories.all %}
+                        <span class="badge badge-secondary">{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+                <h6>{{ article.short_description }}</h6>
                 <p class="lead">
-                    Main text: Sed sed pulvinar turpis, dictum tempus orci. Ut in lorem viverra, blandit ipsum vitae,
-                    pretium metus. Mommy mommy mommy mommy mommy mommy mommy mommy.
+                    {{ article.main_text }}
                 </p>
 
                 <br>
@@ -32,48 +34,6 @@
                     </div>
                 </div>
                 <!-- ends here -->
-
-                <!-- ERASE when we have content -->
-                <h5>Sub-section title</h5>
-                <div class="container mb-2">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col-12">
-                            In sit amet nunc vel nunc volutpat volutpat. Aliquam faucibus est est, vel tincidunt massa
-                            imperdiet a. Maecenas vel est mi. Fusce sollicitudin at enim a varius. Maecenas massa massa,
-                            sollicitudin vel lorem tincidunt, efficitur tristique velit. Ut congue sagittis dui viverra
-                            pretium. Sed tincidunt, nisi vitae gravida porttitor, nulla eros tempus nibh, at porttitor
-                            odio libero rhoncus orci. Phasellus imperdiet consequat metus ut efficitur.
-                        </div>
-                    </div>
-                </div>
-                <h5>Sub-section title</h5>
-                <div class="container mb-2">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col-12">
-                            In sit amet nunc vel nunc volutpat volutpat. Aliquam faucibus est est, vel tincidunt massa
-                            imperdiet a. Maecenas vel est mi. Fusce sollicitudin at enim a varius. Maecenas massa massa,
-                            sollicitudin vel lorem tincidunt, efficitur tristique velit. Ut congue sagittis dui viverra
-                            pretium. Sed tincidunt, nisi vitae gravida porttitor, nulla eros tempus nibh, at porttitor
-                            odio libero rhoncus orci. Phasellus imperdiet consequat metus ut efficitur.
-                        </div>
-                    </div>
-                </div>
-                <h5>Sub-section title</h5>
-                <div class="container mb-2">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col-12">
-                            In sit amet nunc vel nunc volutpat volutpat. Aliquam faucibus est est, vel tincidunt massa
-                            imperdiet a. Maecenas vel est mi. Fusce sollicitudin at enim a varius. Maecenas massa massa,
-                            sollicitudin vel lorem tincidunt, efficitur tristique velit. Ut congue sagittis dui viverra
-                            pretium. Sed tincidunt, nisi vitae gravida porttitor, nulla eros tempus nibh, at porttitor
-                            odio libero rhoncus orci. Phasellus imperdiet consequat metus ut efficitur.
-                        </div>
-                    </div>
-                </div>
-                <!-- till here -->
 
             </div>
 
