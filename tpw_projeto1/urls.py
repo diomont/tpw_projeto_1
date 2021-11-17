@@ -15,15 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from wiki import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', views.article_list),
+<<<<<<< HEAD
     path('article_page/', views.article_page),
     path('', views.main_page),
     path('login/', views.login),
     path('createAccount/', views.createAccount)
+=======
+    path('articles/<int:i>', views.article_page),
+    path('articles/edit/<int:i>', views.article_edit),
+    path('', views.main_page)
+>>>>>>> ebb83e2b0a61f365be44afbfe863526ce6258b09
 ]
+
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT)
 
 handler404 = "wiki.views.page_not_found"

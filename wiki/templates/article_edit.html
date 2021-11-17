@@ -3,21 +3,24 @@
 
     <div class="container">
         <div class="row">
-
+            <form action="." method="post" class="form-horizontal">
+            {% csrf_token %}
             <div class="m-2 col-8 bg-light text-dark">
 
-                <h1 class="display-4">{{ article.title }}</h1>
+                <h1 class="display-4">{{ form.title }}</h1>
                 <div class="d-flex flex-row-reverse mb-1">
-                    {% for category in article.categories.all %}
-                        <span class="badge badge-secondary">{{ category.name }}</span>
-                    {% endfor %}
+                    {{ form.categories }}
+                    <!-- <button type="button" class="btn btn-outline-secondary">Category</button> -->
                 </div>
-                <h6>{{ article.short_description }}</h6>
-                <p class="lead">
-                    {{ article.main_text }}
-                </p>
+                <h6>{{ form.short_description }}</h6>
+                <p class="lead">{{ form.main_text }}</p>
 
                 <br>
+
+                <!-- DELETE LATER -->
+                <h5>FOR TESTING:</h5>
+                {{ form.sections }}
+                {{ form.side_card }}
 
                 <!-- for every sub-section -->
                 <h5>Sub-section title</h5>
@@ -40,6 +43,7 @@
             <div class="m-2 col">
                 <div class="card" style="width: 18rem;">
                     <img src="image.jpg" class="card-img-top" alt="shrek baby">
+                    {{ form.main_image }}
                     <div class="card-body">
                         <table class="table">
 
@@ -61,23 +65,12 @@
                                 </tr>
                                 <!-- ends here -->
 
-                                <!-- ERASE when we have content -->
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <!-- till here -->
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
+            </form>
         </div>
     </div>
 
