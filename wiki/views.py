@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from wiki.models import Article, Section, Category, Subsection
-from wiki.forms import ArticleForm
+from wiki.models import Article, Section, Category
+from wiki.forms import ArticleForm, SectionFormSet
 
 
 # Create your views here.
@@ -33,7 +33,8 @@ def article_page(request, i):
 def article_edit(request, i):
     article = Article.objects.get(id=i)
     form = ArticleForm(instance=article)
-    return render(request, "article_edit.html", {"form": form})
+    sectionset = SectionFormSet(queryset=article.section_set.all())
+    return render(request, "article_edit.html", {"form": form, "sectionset": sectionset})
 
 
 def main_page(request):

@@ -49,14 +49,6 @@ class Section(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=120)
-
-    def __str__(self):
-        return self.title
-
-
-class Subsection(models.Model):
-    section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    title = models.CharField(max_length=120, blank=True)
     content = models.JSONField()
 
     def __str__(self):
