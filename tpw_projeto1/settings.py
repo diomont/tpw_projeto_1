@@ -66,6 +66,12 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins': [
+                'wiki.templatetags.custom_tags'
+            ],
+            'libraries': {
+                'filter_tags': 'wiki.filter'
+            }
         },
     },
 ]

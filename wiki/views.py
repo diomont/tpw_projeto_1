@@ -27,9 +27,8 @@ def article_list(request):
 
 def article_page(request, i):
     article = Article.objects.get(id=i)
-    print(article.categories)
     params = {
-        "article": article
+        "article": article,
     }
     return render(request, "article_page.html", params)
 

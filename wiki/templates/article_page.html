@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% load custom_tags %}
+{% load filter_tags %}
 {% block content %}
 
     <div class="container">
@@ -9,70 +11,79 @@
                 <h1 class="display-4">{{ article.title }}</h1>
                 <div class="d-flex flex-row-reverse mb-1">
                     {% for category in article.categories.all %}
-                        <span class="badge badge-secondary">{{ category.name }}</span>
+                        <span class="badge ml-2 badge-secondary">{{ category.name }}</span>
                     {% endfor %}
                 </div>
-                <h6>{{ article.short_description }}</h6>
+                <h3>{{ article.short_description }}</h3>
                 <p class="lead">
                     {{ article.main_text }}
                 </p>
 
                 <br>
 
+                {% for section in article.section_set.all %}
+                    <h3>{{ section.title }}</h3>
+{#                    {% for sub in section.subsection_set.all %}#}
+                            <div class="container mb-2">
+                                <div class="row ml-4">
+                                    {% for content in section.content %}
+                                        {% ifequal content.type "text" %}
+                                            <div class="col-12">
+                                                {{ content.value }}
+                                            </div>
+                                        {% endifequal %}
+                                        <br>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+{#                    {% endfor %}#}
+                {% endfor %}
+
                 <!-- for every sub-section -->
-                <h5>Sub-section title</h5>
-                <div class="container mb-2">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col-12">
-                            In sit amet nunc vel nunc volutpat volutpat. Aliquam faucibus est est, vel tincidunt massa
-                            imperdiet a. Maecenas vel est mi. Fusce sollicitudin at enim a varius. Maecenas massa massa,
-                            sollicitudin vel lorem tincidunt, efficitur tristique velit. Ut congue sagittis dui viverra
-                            pretium. Sed tincidunt, nisi vitae gravida porttitor, nulla eros tempus nibh, at porttitor
-                            odio libero rhoncus orci. Phasellus imperdiet consequat metus ut efficitur.
-                        </div>
-                    </div>
-                </div>
+
                 <!-- ends here -->
 
             </div>
 
             <div class="m-2 col">
                 <div class="card" style="width: 18rem;">
-                    <img src="image.jpg" class="card-img-top" alt="shrek baby">
+                    <img src={{ article.main_image.url }} class="card-img-top" alt="shrek baby">
                     <div class="card-body">
                         <table class="table">
 
                             <!-- ERASE when we have content -->
-                            <thead>
-                                <tr>
-                                    <th scope="col">Field</th>
-                                    <th scope="col">Value</th>
-                                </tr>
-                            </thead>
-                            <!-- till here -->
-
-                            <tbody>
-
-                                <!-- for every field-valur pair -->
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <!-- ends here -->
-
-                                <!-- ERASE when we have content -->
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
+                            {% if article.side_card %}
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Field</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
                                 <!-- till here -->
 
-                            </tbody>
+                                <tbody>
+
+                                    {% for card in article.side_card %}
+                                        <tr>
+                                            <th scope="row">{{ card.name }}</th>
+                                            <td>
+                                                {% if card.value|length == 1 %}
+                                                    {{ card.value|first }}
+                                                {% else %}
+                                                    <ul style="padding-left: 1em">
+                                                    {% for texto in card.value %}
+                                                        <li>{{ texto }}</li>
+                                                    {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                </tbody>
+
+                            {% endif %}
                         </table>
                     </div>
                 </div>
