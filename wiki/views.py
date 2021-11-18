@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from wiki.models import Article, Section, Category, Subsection
 from wiki.forms import ArticleForm
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 
 # Create your views here.
@@ -43,7 +45,28 @@ def login(request):
     return render(request, "login.html")
 
 def createAccount(request):
-    return render(request, "createAccount.html")
+    if request.POST:
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        email = request.POST['email']
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = User.objects.create_user()
+        user.first_name = firstname
+        user.last_name = lastname
+        user.email = email
+        user.username = username
+        user.password = password
+
+        user.save()
+
+        # TODO: login
+
+        return render(request, "createAccount.html")
+    else:
+        print("NO FORM DATA")
+        return render(request, "createAccount.html")
 
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):
