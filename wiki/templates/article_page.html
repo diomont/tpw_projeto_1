@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% load custom_tags %}
+{% load filter_tags %}
 {% block content %}
 
     <div class="container">
@@ -19,27 +21,71 @@
 
                 <br>
 
+                {% for section in article.section_set.all %}
+                    <h3>{{ section.title }}</h3>
+                    {% for sub in section.subsection_set.all %}
+                        <h5 class="ml-4">{{ sub.title }}</h5>
+                            <div class="container mb-2">
+                                <div class="row ml-4">
+                                    {% for content in sub.content %}
+                                        {% ifequal content.type "text" %}
+                                            <div class="col-12">
+                                                {% with 0 as start_idx %}
+                                                    {% for link in content.links %}
+                                                        start idx: {{ start_idx }}
+    {#                                                    {{ link }}#}
+                                                        {% with content.value|find:link.text as end_idx %}
+
+                                                            {% link_text content.value start_idx end_idx %}
+    {#                                                        {% with content.value|substring:start_idx as substr %}#}
+    {#                                                            {{ substr }}#}
+    {#                                                        {% endwith %}#}
+                                                            {% update_var start_idx|add:end_idx as start_idx %}
+                                                            start idx2: {{ start_idx }}
+                                                            {% update_var link.text|length|add:start_idx as start_idx %}
+                                                            start idx3: {{ start_idx }}
+
+
+{#                                                            {% with True as teste %}#}
+{#                                                                {% update_var False as teste %}#}
+{##}
+{#                                                                teste: {{ teste }}#}
+{#                                                            {% endwith %}#}
+{#                                                            my var: {{ my_var }}#}
+                                                            <a href="{{ link.href }}">{{ link.text }}</a>
+
+                                                        {% endwith %}
+                                                    {% endfor %}
+                                                    {% link_text content.value start_idx -1 %}
+                                                {% endwith %}
+                                                {% teste content.value|urlize %}
+{#                                                {% link_text content.value content.links %}#}
+                                                {% with content.value|find:"Sus" as words %}
+{#                                                    {{ words }}#}
+{#                                                    {% for word in words %}#}
+{#                                                        {{ word }}#}
+{#                                                    {% endfor %}#}
+                                                {% endwith %}
+                                            </div>
+                                        {% endifequal %}
+                                        <p>{{ content }}</p>
+                                        <br>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                    {% endfor %}
+                {% endfor %}
+
                 <!-- for every sub-section -->
-                <h5>Sub-section title</h5>
-                <div class="container mb-2">
-                    <div class="row">
-                        <div class="col"></div>
-                        <div class="col-12">
-                            In sit amet nunc vel nunc volutpat volutpat. Aliquam faucibus est est, vel tincidunt massa
-                            imperdiet a. Maecenas vel est mi. Fusce sollicitudin at enim a varius. Maecenas massa massa,
-                            sollicitudin vel lorem tincidunt, efficitur tristique velit. Ut congue sagittis dui viverra
-                            pretium. Sed tincidunt, nisi vitae gravida porttitor, nulla eros tempus nibh, at porttitor
-                            odio libero rhoncus orci. Phasellus imperdiet consequat metus ut efficitur.
-                        </div>
-                    </div>
-                </div>
+
                 <!-- ends here -->
 
             </div>
 
             <div class="m-2 col">
                 <div class="card" style="width: 18rem;">
-                    <img src="image.jpg" class="card-img-top" alt="shrek baby">
+                    <img src={{ article.main_image.url }} class="card-img-top" alt="shrek baby">
                     <div class="card-body">
                         <table class="table">
 
