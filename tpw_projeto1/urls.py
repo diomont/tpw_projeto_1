@@ -26,13 +26,14 @@ urlpatterns = [
     path('articles/', views.article_list),
     path('article_page/', views.article_page),
     path('', views.main_page),
-    # path('login/', views.login),
     path('createAccount/', views.createAccount),
     path('articles/<int:i>', views.article_page),
     path('articles/edit/<int:i>', views.article_edit),
     path('', views.main_page),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page=''), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('accounts/profile/', views.profile),
+    path('changePassword/', views.change_password),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

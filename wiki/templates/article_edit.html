@@ -19,10 +19,13 @@
 
                 <!-- DELETE LATER -->
                 <h5>FOR TESTING:</h5>
-                {{ form.sections }}
                 {{ form.side_card }}
 
                 <!-- for every sub-section -->
+                {% for section in sectionset %}
+                    {{ section }}
+                {% endfor %}
+
                 <h5>Sub-section title</h5>
                 <div class="container mb-2">
                     <div class="row">

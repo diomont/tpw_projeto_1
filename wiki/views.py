@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from wiki.models import Article, Section, Category, Subsection
+from wiki.models import Article, Section, Category
 from wiki.forms import ArticleForm
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
+from wiki.models import Article, Section, Category
+from wiki.forms import ArticleForm, SectionFormSet
 
 
 # Create your views here.
@@ -35,14 +37,12 @@ def article_page(request, i):
 def article_edit(request, i):
     article = Article.objects.get(id=i)
     form = ArticleForm(instance=article)
-    return render(request, "article_edit.html", {"form": form})
+    sectionset = SectionFormSet(queryset=article.section_set.all())
+    return render(request, "article_edit.html", {"form": form, "sectionset": sectionset})
 
 
 def main_page(request):
     return render(request, "main_page.html")
-
-def login(request):
-    return render(request, "login.html")
 
 def createAccount(request):
     if request.POST:
@@ -52,21 +52,42 @@ def createAccount(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = User.objects.create_user()
+        user = User.objects.create_user(username, email, password)
         user.first_name = firstname
         user.last_name = lastname
-        user.email = email
-        user.username = username
-        user.password = password
 
         user.save()
+        return redirect('/login')
 
-        # TODO: login
-
-        return render(request, "createAccount.html")
     else:
-        print("NO FORM DATA")
         return render(request, "createAccount.html")
+
+def profile(request):
+    params = {
+        "profile_page": True,
+    }
+    return render(request, "profilePage.html", params)
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')
+
+def change_password(request):
+    if request.POST:
+        new_password = request.POST['new_password']
+        new_password_conf = request.POST['new_password_conf']
+
+        if new_password==new_password_conf:
+            user = request.user
+            user.set_password(new_password)
+            user.save()
+            return redirect('/login')
+        else:
+            params = {"error": True}
+            return render(request, "changePassword.html", params)
+    else:
+        params = {"error": False}
+        return render(request, "changePassword.html", params)
 
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):
