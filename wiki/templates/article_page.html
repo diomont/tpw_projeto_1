@@ -53,35 +53,37 @@
                         <table class="table">
 
                             <!-- ERASE when we have content -->
-                            <thead>
-                                <tr>
-                                    <th scope="col">Field</th>
-                                    <th scope="col">Value</th>
-                                </tr>
-                            </thead>
-                            <!-- till here -->
-
-                            <tbody>
-
-                                <!-- for every field-valur pair -->
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <!-- ends here -->
-
-                                <!-- ERASE when we have content -->
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
+                            {% if article.side_card %}
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Field</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
                                 <!-- till here -->
 
-                            </tbody>
+                                <tbody>
+
+                                    {% for card in article.side_card %}
+                                        <tr>
+                                            <th scope="row">{{ card.name }}</th>
+                                            <td>
+                                                {% if card.value|length == 1 %}
+                                                    {{ card.value|first }}
+                                                {% else %}
+                                                    <ul style="padding-left: 1em">
+                                                    {% for texto in card.value %}
+                                                        <li>{{ texto }}</li>
+                                                    {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                </tbody>
+
+                            {% endif %}
                         </table>
                     </div>
                 </div>
