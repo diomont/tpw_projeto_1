@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-5"><h3>Create an account</h3></div>
+    <div class="container w-25 mt-3">
+        <form action="." method="post">
+            {% csrf_token %}
+            <label for="firstname">First name</label>
+            <input type="text" class="form-control" id="firstname" placeholder="Enter first name" name="firstname">
+
+            <label for="lastname">Last name</label>
+            <input type="text" class="form-control" id="lastname" placeholder="Enter last name" name="lastname">
+
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="username">
+
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
+
+            <p>Already have an account? <a href="http://127.0.0.1:8000/login/">Login!</a></p>
+            <div class="d-flex justify-content-center"><input type="submit" value="Create account" role="button" class="btn btn-secondary"></input></div>
+        </form>
+    </div>
+
+{% endblock %}

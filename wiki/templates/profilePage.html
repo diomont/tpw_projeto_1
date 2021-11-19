@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    {% if user.is_authenticated %}
+        <div class="d-flex justify-content-center mt-5"><h1>Profile page</h1></div>
+        <div class="container w-50 mt-2">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Username</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td>{{ user.first_name }} {{ user.last_name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">E-mail</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center"><a href="/changePassword/" class="btn btn-secondary" role="button">Change password</a></div>
+        </div>
+    {% else %}
+        <div class="d-flex justify-content-center mt-5"><p class="text-danger">Please login to see this page.</p></div>
+    {% endif %}
+
+{% endblock %}
