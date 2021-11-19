@@ -1,7 +1,26 @@
-<tr name="{{ widget.name }}"
+{% comment  %} On IDEs, like pycharm, this is incorrectly marked as an error {% endcomment %}
+<tbody
     {% for name, value in widget.attrs.items %}
         {% if value is not False %}
             {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}
         {% endif %}
-    {% endfor %}>
-{% if widget.value %}{{ widget.value }}{% endif %}</tr>
+    {% endfor %}
+>
+    {% for entry in widget.value %}
+        <tr>
+
+            <td>
+                <input type="text" value="{{ entry.name }}" maxlength="50" >
+            </td>
+            <td>
+                {% if entry.val|length > 1 %}
+                    <input type="text" value="{{ val }}" maxlength="50">
+                {% else %}
+                    {% for val in entry.value %}
+                        <input type="text" value="{{ val }}" maxlength="50">
+                    {% endfor %}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
