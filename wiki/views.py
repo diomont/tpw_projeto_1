@@ -34,6 +34,7 @@ def article_edit(request, i):
     article = Article.objects.get(id=i)
     form = ArticleForm(instance=article)
     sectionset = SectionFormSet(queryset=article.section_set.all())
+
     return render(request, "article_edit.html", {"form": form, "sectionset": sectionset})
 
 

@@ -2,8 +2,8 @@
 {% block content %}
 
     <div class="container">
+    <form action="." method="post" class="form-horizontal">
         <div class="row">
-            <form action="." method="post" class="form-horizontal">
             {% csrf_token %}
             <div class="m-2 col-8 bg-light text-dark">
 
@@ -17,30 +17,15 @@
 
                 <br>
 
-                <!-- DELETE LATER -->
-                <h5>FOR TESTING:</h5>
-                {{ form.side_card }}
-
-                <!-- for every sub-section -->
+                {{ sectionset.management_form }}
                 {% for section in sectionset %}
-                    {{ section }}
-                {% endfor %}
-
-                <h5>Sub-section title</h5>
+                <h5>{{ section.title }}</h5>
                 <div class="container mb-2">
                     <div class="row">
-                        <div class="col"></div>
-                        <div class="col-12">
-                            In sit amet nunc vel nunc volutpat volutpat. Aliquam faucibus est est, vel tincidunt massa
-                            imperdiet a. Maecenas vel est mi. Fusce sollicitudin at enim a varius. Maecenas massa massa,
-                            sollicitudin vel lorem tincidunt, efficitur tristique velit. Ut congue sagittis dui viverra
-                            pretium. Sed tincidunt, nisi vitae gravida porttitor, nulla eros tempus nibh, at porttitor
-                            odio libero rhoncus orci. Phasellus imperdiet consequat metus ut efficitur.
-                        </div>
+                        <div class="col-12">{{ section.content }}</div>
                     </div>
                 </div>
-                <!-- ends here -->
-
+                {% endfor %}
             </div>
 
             <div class="m-2 col">
@@ -61,6 +46,8 @@
 
                             <tbody>
 
+                                {{ form.side_card }}
+
                                 <!-- for every field-valur pair -->
                                 <tr>
                                     <th scope="row">...</th>
@@ -73,8 +60,8 @@
                     </div>
                 </div>
             </div>
-            </form>
         </div>
+    </form>
     </div>
 
     <footer class="bg-light text-center text-lg-start">

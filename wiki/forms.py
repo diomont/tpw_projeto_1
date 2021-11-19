@@ -14,4 +14,12 @@ class ArticleForm(forms.ModelForm):
 
 
 # https://docs.djangoproject.com/en/3.2/ref/forms/fields/#creating-custom-fields
-SectionFormSet = forms.modelformset_factory(Section, fields=("title", "content"))
+SectionFormSet = forms.modelformset_factory(Section, fields=("title", "content"), extra=10, max_num=10, setattr("hidden", ))
+
+
+class SectionWidget(forms.Textarea):
+    template_name = "widgets/sidecard.html"
+
+    def __init__(self, attrs=None):
+        super().__init__(attrs)
+
