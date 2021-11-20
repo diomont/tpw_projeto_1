@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
 
-            <div class="m-2 col-8 bg-light text-dark">
+            <div class="p-4 col-8 bg-light text-dark">
 
                 <h1 class="display-4">{{ article.title }}</h1>
                 <div class="d-flex flex-row-reverse mb-1">
@@ -46,24 +46,15 @@
 
             </div>
 
-            <div class="m-2 col">
-                <div class="card" style="width: 18rem;">
+            <div class="p-4 col-4">
+                <div class="card">
                     <img src={{ article.main_image.url }} class="card-img-top" alt="shrek baby">
                     <div class="card-body">
                         <table class="table">
 
                             <!-- ERASE when we have content -->
                             {% if article.side_card %}
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Field</th>
-                                        <th scope="col">Value</th>
-                                    </tr>
-                                </thead>
-                                <!-- till here -->
-
                                 <tbody>
-
                                     {% for card in article.side_card %}
                                         <tr>
                                             <th scope="row">{{ card.name }}</th>
@@ -80,7 +71,6 @@
                                             </td>
                                         </tr>
                                     {% endfor %}
-
                                 </tbody>
 
                             {% endif %}

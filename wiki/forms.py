@@ -39,7 +39,7 @@ class ArticleForm(forms.ModelForm):
 
 # https://docs.djangoproject.com/en/3.2/ref/forms/fields/#creating-custom-fields
 SectionFormSet = forms.modelformset_factory(Section, fields=("title", "content"),
-                                            extra=10, max_num=10,
+                                            extra=0, max_num=10,
                                             widgets={"content": SectionWidget(attrs={"cols": 70, "rows": 10})},
                                             )
 

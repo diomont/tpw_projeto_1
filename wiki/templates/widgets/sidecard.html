@@ -9,18 +9,28 @@
                     type="text" maxlength="50" cols="20" rows="5"
                 >{{ entry.value|join:"&#13;&#10;" }}</textarea>
             </td>
+            <td>
+                <button type="button" onclick="delete_side_card_field(this)">Delete</button>
+            </td>
         </tr>
     {% endfor %}
 </tbody>
-<button type="button" onclick="new_side_card_field()" >New field</button>
+
 <script>
     new_side_card_field = () => {
         let elem = document.getElementById("side_card_table")
-        let last_number = elem.lastElementChild.firstElementChild.firstElementChild.getAttribute("name").split("_")[0]
+        let last_number
+        try {
+            last_number = elem.lastElementChild.firstElementChild.firstElementChild.getAttribute("name").split("_")[0]
+        }
+        catch {
+            last_number = 0
+        }
 
         let row = document.createElement("tr")
         let name_col = document.createElement("td")
         let val_col = document.createElement("td")
+        let button_col = document.createElement("td")
 
         let name_input = document.createElement("input")
         name_input.name = last_number/1 +1 + "_scard_entry_name"
@@ -34,12 +44,23 @@
         val_input.cols = 20
         val_input.rows = 5
 
+        let del_button = document.createElement("button")
+        del_button.innerText = "Delete"
+        del_button.type = "button"
+        del_button.setAttribute("onclick", "delete_side_card_field(this)")
+
         name_col.appendChild(name_input)
         val_col.appendChild(val_input)
+        button_col.appendChild(del_button)
 
         row.appendChild(name_col)
         row.appendChild(val_col)
+        row.appendChild(button_col)
 
         elem.appendChild(row)
+    }
+
+    delete_side_card_field = (elem) => {
+        elem.parentElement.parentElement.remove()
     }
 </script>

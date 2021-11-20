@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
+{% load custom_tags %}
 
-    <div class="container">
+    <div class="px-3">
     <form action="/savearticle/" method="post" class="form-horizontal">
         <div class="row">
             {% csrf_token %}
-            <div class="m-2 col-8 bg-light text-dark">
+            <div class="p-4 col-8 bg-light text-dark">
 
                 <h1 class="display-4">{{ form.title }}</h1>
                 <div class="d-flex flex-row-reverse mb-1">
@@ -17,19 +18,22 @@
 
                 <br>
 
+
+                <div id="section_formgroup">
                 {{ sectionset.management_form }}
                 {% for section in sectionset %}
-                <h5>{{ section.title }}</h5>
-                <div class="container mb-2">
-                    <div class="row">
-                        <div class="col-12">{{ section.content }}</div>
+                    <div id="{{ section_count|slugify|add:"_section_form" }}" >
+                        <h5>{{ section.title }}</h5>
+                        {{ section.content }}
+                        <button type="button" onclick="delete_section(this)">Delete Section</button>
                     </div>
-                </div>
                 {% endfor %}
+                </div>
+                <button type="button">New Section</button>
             </div>
 
-            <div class="m-2 col">
-                <div class="card" style="width: 18rem;">
+            <div class="p-4 col-4">
+                <div class="card">
                     <img src="image.jpg" class="card-img-top" alt="shrek baby">
                     {{ form.main_image }}
                     <div class="card-body">
@@ -43,20 +47,9 @@
                                 </tr>
                             </thead>
                             <!-- till here -->
-
-                            <tbody>
-
-                                {{ form.side_card }}
-
-                                <!-- for every field-valur pair -->
-                                <tr>
-                                    <th scope="row">...</th>
-                                    <td>...</td>
-                                </tr>
-                                <!-- ends here -->
-
-                            </tbody>
+                            {{ form.side_card }}
                         </table>
+                        <button type="button" onclick="new_side_card_field()" >New field</button>
                     </div>
                 </div>
             </div>
@@ -70,5 +63,27 @@
             Footer for edit data
         </div>
     </footer>
+
+    <script>
+        // disable default input element behaviour for Enter key
+        input_elems = document.getElementsByTagName("input")
+        for (const el of input_elems) {
+            if (el.type == "search") continue
+            el.addEventListener("keypress", (ev) => {
+                if (ev.key === "Enter") {
+                    ev.preventDefault()
+                }
+            })
+        }
+
+        new_section = () => {
+
+        }
+
+        delete_section = (elem) => {
+
+        }
+
+    </script>
 
 {% endblock %}
