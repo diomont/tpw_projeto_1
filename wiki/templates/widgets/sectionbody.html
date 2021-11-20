@@ -1,0 +1,14 @@
+<div>
+    {% for entry in widget.value %}
+        {% if entry.type == "text" %}
+            <textarea {% include "widgets/widgetattrs.html" %}>{{ entry.value }}</textarea>
+        {% elif entry.type == "image" %}
+            {% comment %} introduzir outros parametros de imagem {% endcomment %}
+            <img src="{{ entry.src }}" /><br />
+            <input type="file" accept="image/*" />
+        {% endif %}
+        <br />
+    {% endfor %}
+
+
+</div>

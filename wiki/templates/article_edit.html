@@ -2,7 +2,7 @@
 {% block content %}
 
     <div class="container">
-    <form action="." method="post" class="form-horizontal">
+    <form action="/savearticle/" method="post" class="form-horizontal">
         <div class="row">
             {% csrf_token %}
             <div class="m-2 col-8 bg-light text-dark">
@@ -12,7 +12,7 @@
                     {{ form.categories }}
                     <!-- <button type="button" class="btn btn-outline-secondary">Category</button> -->
                 </div>
-                <h6>{{ form.short_description }}</h6>
+                <h3>{{ form.short_description }}</h3>
                 <p class="lead">{{ form.main_text }}</p>
 
                 <br>
@@ -61,6 +61,7 @@
                 </div>
             </div>
         </div>
+        <button type="submit">Save Changes</button>
     </form>
     </div>
 

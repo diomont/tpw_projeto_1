@@ -1,26 +1,21 @@
-{% comment  %} On IDEs, like pycharm, this is incorrectly marked as an error {% endcomment %}
-<tbody
-    {% for name, value in widget.attrs.items %}
-        {% if value is not False %}
-            {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}
-        {% endif %}
-    {% endfor %}
->
+{% load custom_tags %}
+<tbody {% include "widgets/widgetattrs.html" %}>
     {% for entry in widget.value %}
         <tr>
-
             <td>
-                <input type="text" value="{{ entry.name }}" maxlength="50" >
+                <input name="{{ forloop.counter0|slugify|add:"_scard_entry_name" }}" type="text" value="{{ entry.name }}" maxlength="50" >
+                {% update_var forloop.counter0|slugify as entry_num %}
             </td>
             <td>
-                {% if entry.val|length > 1 %}
-                    <input type="text" value="{{ val }}" maxlength="50">
-                {% else %}
-                    {% for val in entry.value %}
-                        <input type="text" value="{{ val }}" maxlength="50">
-                    {% endfor %}
-                {% endif %}
+                {% for val in entry.value %}
+                    <input name="{{ forloop.counter0|slugify|add:"_"|add:entry_num|add:"_scard_entry_val" }}"
+                           type="text" value="{{ val }}" maxlength="50"
+                    >
+                {% endfor %}
             </td>
         </tr>
     {% endfor %}
 </tbody>
+<script>
+    
+</script>

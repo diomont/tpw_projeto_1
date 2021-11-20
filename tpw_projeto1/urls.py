@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', views.article_list),
     path('article_page/', views.article_page),
+    path('savearticle/', views.article_save),
     path('', views.main_page),
     path('createAccount/', views.createAccount),
     path('articles/<int:i>', views.article_page),
