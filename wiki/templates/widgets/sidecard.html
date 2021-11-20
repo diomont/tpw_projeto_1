@@ -1,21 +1,45 @@
-{% load custom_tags %}
-<tbody {% include "widgets/widgetattrs.html" %}>
+<tbody id="side_card_table" {% include "widgets/widgetattrs.html" %}>
     {% for entry in widget.value %}
         <tr>
             <td>
                 <input name="{{ forloop.counter0|slugify|add:"_scard_entry_name" }}" type="text" value="{{ entry.name }}" maxlength="50" >
-                {% update_var forloop.counter0|slugify as entry_num %}
             </td>
             <td>
-                {% for val in entry.value %}
-                    <input name="{{ forloop.counter0|slugify|add:"_"|add:entry_num|add:"_scard_entry_val" }}"
-                           type="text" value="{{ val }}" maxlength="50"
-                    >
-                {% endfor %}
+                <textarea name="{{ forloop.counter0|slugify|add:"_scard_entry_val" }}"
+                    type="text" maxlength="50" cols="20" rows="5"
+                >{{ entry.value|join:"&#13;&#10;" }}</textarea>
             </td>
         </tr>
     {% endfor %}
 </tbody>
+<button type="button" onclick="new_side_card_field()" >New field</button>
 <script>
-    
+    new_side_card_field = () => {
+        let elem = document.getElementById("side_card_table")
+        let last_number = elem.lastElementChild.firstElementChild.firstElementChild.getAttribute("name").split("_")[0]
+
+        let row = document.createElement("tr")
+        let name_col = document.createElement("td")
+        let val_col = document.createElement("td")
+
+        let name_input = document.createElement("input")
+        name_input.name = last_number/1 +1 + "_scard_entry_name"
+        name_input.type = "text"
+        name_input.maxLength = 50
+
+        let val_input = document.createElement("textarea")
+        val_input.name = last_number/1 +1 + "_scard_entry_val"
+        val_input.type = "text"
+        val_input.maxLength = 50
+        val_input.cols = 20
+        val_input.rows = 5
+
+        name_col.appendChild(name_input)
+        val_col.appendChild(val_input)
+
+        row.appendChild(name_col)
+        row.appendChild(val_col)
+
+        elem.appendChild(row)
+    }
 </script>
