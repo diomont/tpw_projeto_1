@@ -24,7 +24,9 @@
                 {% for section in sectionset %}
                     <div id="{{ section_count|slugify|add:"_section_form" }}" >
                         <h5>{{ section.title }}</h5>
-                        {{ section.content }}
+                        {{ section.text }}
+                        <br />
+                        {{ section.image }}
                         <button class="btn btn-secondary mr-1 mb-2" type="button" onclick="delete_section(this)">Delete Section</button>
                     </div>
                 {% endfor %}
@@ -34,7 +36,6 @@
 
             <div class="p-4 col-sm-12 col-lg-5">
                 <div class="card">
-                    <img src="image.jpg" class="card-img-top" alt="shrek baby">
                     {{ form.main_image }}
                     <div class="card-body">
                         <table class="table">

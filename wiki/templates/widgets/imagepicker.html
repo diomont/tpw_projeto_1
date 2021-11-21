@@ -1,0 +1,9 @@
+<script>
+    console.log("{{ widget }}")
+</script>
+{% if widget.value %}
+    <h6>Currently:</h6>
+    <img src="{{ widget.value.url }}" />
+    <br />
+{% endif %}
+<input type="file" accept="image/*" name="{{ widget.name }}" {% include "widgets/widgetattrs.html" %} />
