@@ -14,7 +14,6 @@ from wiki.forms import ArticleForm, SectionFormSet
 def article_list(request, search=""):
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
-    print(articles)
     # print(articles[0].section_set.all())
 
     params = {
@@ -46,6 +45,10 @@ def article_save(request):
 
     if request.method == "POST":
         print("we gotcha fam")
+        post = request.POST
+        art_id = 1
+        article = Article.objects.get(id=art_id)
+        print(article)
     print("req:", request)
     print("req.post:", request.POST)
 
