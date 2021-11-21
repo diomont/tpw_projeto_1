@@ -2,15 +2,26 @@
     {% for entry in widget.value %}
         <tr>
             <td>
+<<<<<<< HEAD
                 <input name="{{ forloop.counter0|slugify|add:"_scard_entry_name" }}" type="text" value="{{ entry.name }}" maxlength="50" >
             </td>
             <td>
                 <textarea name="{{ forloop.counter0|slugify|add:"_scard_entry_val" }}"
+=======
+                <input class="form-control" name="{{ forloop.counter0|slugify|add:"_scard_entry_name" }}" type="text" value="{{ entry.name }}" maxlength="50" >
+            </td>
+            <td>
+                <textarea class="form-control" name="{{ forloop.counter0|slugify|add:"_scard_entry_val" }}"
+>>>>>>> dd0e17ceb342103d5820b4a90998bfb176aa1637
                     type="text" maxlength="50" cols="20" rows="5"
                 >{{ entry.value|join:"&#13;&#10;" }}</textarea>
             </td>
             <td>
+<<<<<<< HEAD
                 <button type="button" onclick="delete_side_card_field(this)">Delete</button>
+=======
+                <button class="btn btn-danger" type="button" onclick="delete_side_card_field(this)">Delete</button>
+>>>>>>> dd0e17ceb342103d5820b4a90998bfb176aa1637
             </td>
         </tr>
     {% endfor %}
@@ -36,6 +47,10 @@
         name_input.name = last_number/1 +1 + "_scard_entry_name"
         name_input.type = "text"
         name_input.maxLength = 50
+<<<<<<< HEAD
+=======
+        name_input.className = "form-control"
+>>>>>>> dd0e17ceb342103d5820b4a90998bfb176aa1637
 
         let val_input = document.createElement("textarea")
         val_input.name = last_number/1 +1 + "_scard_entry_val"
@@ -43,11 +58,19 @@
         val_input.maxLength = 50
         val_input.cols = 20
         val_input.rows = 5
+<<<<<<< HEAD
+=======
+        val_input.className = "form-control"
+>>>>>>> dd0e17ceb342103d5820b4a90998bfb176aa1637
 
         let del_button = document.createElement("button")
         del_button.innerText = "Delete"
         del_button.type = "button"
         del_button.setAttribute("onclick", "delete_side_card_field(this)")
+<<<<<<< HEAD
+=======
+        del_button.className = "btn btn-danger"
+>>>>>>> dd0e17ceb342103d5820b4a90998bfb176aa1637
 
         name_col.appendChild(name_input)
         val_col.appendChild(val_input)

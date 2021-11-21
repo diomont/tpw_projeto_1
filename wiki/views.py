@@ -11,9 +11,10 @@ from wiki.forms import ArticleForm, SectionFormSet
 # Create your views here.
 
 
-def article_list(request):
+def article_list(request, search=""):
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
+    print(articles)
     # print(articles[0].section_set.all())
 
     params = {

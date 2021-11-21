@@ -50,8 +50,8 @@ class Section(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=120)
-    content = models.JSONField()
+    text = models.TextField()
+    image = models.ImageField(upload_to=upload_path)
 
     def __str__(self):
         return self.title
-

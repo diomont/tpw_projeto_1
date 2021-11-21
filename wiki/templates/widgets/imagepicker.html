@@ -1,0 +1,9 @@
+{% if widget.value %}
+    <h6>Currently:</h6>
+    <div style="display: flex; justify-content: center">
+            <img class="mw-100" style="max-height: 18rem" src="{{ widget.value.url }}" />
+    </div>
+    <br />
+{% endif %}
+<input type="file" accept="image/*" name="{{ widget.name }}" {% include "widgets/widgetattrs.html" %} />
+<br />
