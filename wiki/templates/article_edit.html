@@ -24,7 +24,9 @@
                 {% for section in sectionset %}
                     <div id="{{ section_count|slugify|add:"_section_form" }}" >
                         <h5>{{ section.title }}</h5>
-                        {{ section.content }}
+                        {{ section.text }}
+                        <br />
+                        {{ section.image }}
                         <button type="button" onclick="delete_section(this)">Delete Section</button>
                     </div>
                 {% endfor %}
