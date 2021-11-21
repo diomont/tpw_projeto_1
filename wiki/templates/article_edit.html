@@ -18,7 +18,6 @@
 
                 <br>
 
-
                 <div id="section_formgroup">
                 {{ sectionset.management_form }}
                 {% for section in sectionset %}
@@ -27,11 +26,11 @@
                         {{ section.text }}
                         <br />
                         {{ section.image }}
-                        <button class="btn btn-danger mr-1 mb-2" type="button" onclick="delete_section(this)">Delete Section</button>
+                        <button class="btn btn-danger mr-1 my-3" type="button" onclick="delete_section(this)">Delete Section</button>
                     </div>
                 {% endfor %}
                 </div>
-                <button class="btn btn-secondary mr-1 mb-1" type="button" onclick="new_section()">New Section</button>
+                <button class="btn btn-success mr-1 mb-1" type="button" onclick="new_section()">New Section</button>
             </div>
 
             <div class="p-4 col-sm-12 col-lg-5">
@@ -39,29 +38,21 @@
                     {{ form.main_image }}
                     <div class="card-body">
                         <table class="table">
-
-{#                            <!-- ERASE when we have content -->#}
-{#                            <thead>#}
-{#                                <tr>#}
-{#                                    <th scope="col">Field</th>#}
-{#                                    <th scope="col">Value</th>#}
-{#                                </tr>#}
-{#                            </thead>#}
-{#                            <!-- till here -->#}
                             {{ form.side_card }}
                         </table>
-                        <button class="btn btn-secondary" type="button" onclick="new_side_card_field()" >New field</button>
+                        <button class="btn btn-success" type="button" onclick="new_side_card_field()">New field</button>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="btn btn-secondary ml-2 mb-4" type="submit">Save Changes</button>
+
     </form>
     </div>
 
     <footer class="bg-light text-center text-lg-start">
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            Footer for edit data
+            <a class="btn btn-lg btn-secondary ml-2 mb-4" href="/articles/1" >Cancel Edit</a>
+            <button class="btn btn-lg btn-success ml-2 mb-4" type="submit">Save Changes</button>
         </div>
     </footer>
 
@@ -89,6 +80,7 @@
             title_input.id = "id_form-" + last_number + "-title"
             title_input.type = "text"
             title_input.maxLength = 120
+            title_input.className = "form-control"
             title_h5.appendChild(title_input)
 
             let text_input = document.createElement("textarea")
@@ -96,6 +88,7 @@
             text_input.id = "id_form-" + last_number + "-text"
             text_input.cols = 40
             text_input.rows = 10
+            text_input.className = "form-control"
 
             let image_input = document.createElement("input")
             image_input.name = "form-" + last_number + "-image"
@@ -107,7 +100,7 @@
             del_button.type = "button"
             del_button.setAttribute("onclick", "delete_section(this)")
             del_button.innerText = "Delete Section"
-            del_button.className = "btn btn-danger mr-1 mb-2"
+            del_button.className = "btn btn-danger mr-1 my-3"
 
             let outer_div = document.createElement("div")
             outer_div.id = last_number + "_section_form"
@@ -123,7 +116,8 @@
         }
 
         delete_section = (elem) => {
-
+            elem.parentElement.remove()
+            document.getElementById("id_form-TOTAL_FORMS").value -= 1
         }
 
     </script>

@@ -10,7 +10,7 @@
                 >{{ entry.value|join:"&#13;&#10;" }}</textarea>
             </td>
             <td>
-                <button class="btn btn-secondary" type="button" onclick="delete_side_card_field(this)">Delete</button>
+                <button class="btn btn-danger" type="button" onclick="delete_side_card_field(this)">Delete</button>
             </td>
         </tr>
     {% endfor %}
@@ -50,7 +50,7 @@
         del_button.innerText = "Delete"
         del_button.type = "button"
         del_button.setAttribute("onclick", "delete_side_card_field(this)")
-        del_button.className = "btn btn-secondary"
+        del_button.className = "btn btn-danger"
 
         name_col.appendChild(name_input)
         val_col.appendChild(val_input)
