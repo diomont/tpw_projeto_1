@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from wiki.models import Article, Section, Category
@@ -32,6 +33,11 @@ def article_page(request, i):
         "article": article,
     }
     return render(request, "article_page.html", params)
+
+
+def new_article(request):
+    form = ArticleForm()
+    return render(request, "article_edit.html", {"form": form, "sectionset": []})
 
 
 def article_edit(request, i):
