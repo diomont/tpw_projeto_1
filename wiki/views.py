@@ -37,11 +37,23 @@ def article_edit(request, i):
     article = Article.objects.get(id=i)
     form = ArticleForm(instance=article)
     sectionset = SectionFormSet(queryset=article.section_set.all())
+
     return render(request, "article_edit.html", {"form": form, "sectionset": sectionset})
+
+
+def article_save(request):
+
+    if request.method == "POST":
+        print("we gotcha fam")
+    print("req:", request)
+    print("req.post:", request.POST)
+
+    return redirect(article_list)
 
 
 def main_page(request):
     return render(request, "main_page.html")
+
 
 def createAccount(request):
     if request.POST:
@@ -61,15 +73,18 @@ def createAccount(request):
     else:
         return render(request, "createAccount.html")
 
+
 def profile(request):
     params = {
         "profile_page": True,
     }
     return render(request, "profilePage.html", params)
 
+
 def logout_view(request):
     logout(request)
     return redirect('/')
+
 
 def change_password(request):
     if request.POST:
@@ -87,6 +102,20 @@ def change_password(request):
     else:
         params = {"error": False}
         return render(request, "changePassword.html", params)
+
+def adminPage(request):
+    categories = Category.objects.all()
+    articles = Article.objects.all()
+    sections = Section.objects.all()
+
+    params = {
+        "categories": categories,
+        "articles": articles,
+        "sections": sections,
+    }
+
+    return render(request, "admin_page.html", params)
+
 
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):

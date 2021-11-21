@@ -43,6 +43,11 @@
             <li class="nav-item {% if profile_page %} active {% endif %}">
                 <a class="nav-link" href="/accounts/profile">Profile Page</a>
             </li>
+            {% if user.is_superuser %}
+                <li class="nav-item">
+                    <a class="nav-link" href="/adminPage/">Admin Page</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="/logout/">Logout</a>
             </li>

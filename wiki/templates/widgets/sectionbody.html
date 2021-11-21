@@ -1,0 +1,31 @@
+{% for entry in widget.value %}
+    {% if entry.type == "text" %}
+        <textarea {% include "widgets/widgetattrs.html" %}
+                name="{{ section_count }}"
+        >{{ entry.value }}</textarea>
+    {% elif entry.type == "image" %}
+        {% comment %} introduzir outros parametros de imagem {% endcomment %}
+        <img src="{{ entry.src }}" /><br />
+        <input type="file" accept="image/*" />
+    {% endif %}
+    <br />
+{% endfor %}
+
+<button type="button" onclick="new_text_field()">New Text Field</button>
+<button type="button" onclick="new_image()">New Image</button>
+
+<script>
+    new_text_field = () => {
+        //let elem =
+    }
+    new_image = () => {
+
+    }
+
+    delete_text_area = (elem) => {
+
+    }
+    delete_image = (elem) => {
+
+    }
+</script>

@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', views.article_list),
     path('article_page/', views.article_page),
+    path('savearticle/', views.article_save),
     path('', views.main_page),
     path('createAccount/', views.createAccount),
     path('articles/<int:i>', views.article_page),
@@ -34,6 +35,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('accounts/profile/', views.profile),
     path('changePassword/', views.change_password),
+    path('adminPage/', views.adminPage),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

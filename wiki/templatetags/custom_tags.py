@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.simple_tag
 def link_text(text, start_idx, end_idx):
     idxs = []
@@ -11,6 +12,7 @@ def link_text(text, start_idx, end_idx):
     print("output:", text[start_idx:end_idx])
 
     return text[start_idx:end_idx]
+
 
 @register.simple_tag
 def update_var(value):
