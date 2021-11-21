@@ -44,10 +44,26 @@ class ArticleForm(forms.ModelForm):
             "main_image": ImagePicker()
         }
 
+    def __init__(self, *args, **kwargs):
+        super(ArticleForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Title'})
+        self.fields['short_description'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Short Description'})
+        self.fields['main_text'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Main Text'})
+        self.fields['categories'].widget.attrs.update({'class': 'form-control w-50'})
+
+
 
 # TODO: Custom class to transform JSON into form, and correctly save it
 # TODO: Show sections of article (from view most likely as a collection of forms)
 
 # https://docs.djangoproject.com/en/3.2/ref/forms/fields/#creating-custom-fields
 SectionFormSet = forms.modelformset_factory(Section, fields=("title", "text", "image"),
-                                            extra=0, widgets={"image": ImagePicker()})
+                                            extra=0, widgets={
+        "image": ImagePicker(),
+        "title": forms.TextInput(attrs={
+            "class": "form-control"
+        }),
+        "text": forms.Textarea(attrs={
+            "class": "form-control"
+        }),
+    })
