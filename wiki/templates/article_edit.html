@@ -6,7 +6,7 @@
     <form action="/savearticle/" method="post" class="form-horizontal">
         <div class="row">
             {% csrf_token %}
-            <div class="p-4 col-8 bg-light text-dark">
+            <div class="p-4 col-sm-12 col-lg-7 bg-light text-dark">
 
                 <h1 class="display-4">{{ form.title }}</h1>
                 <div class="d-flex flex-row-reverse mb-1">
@@ -25,36 +25,36 @@
                     <div id="{{ section_count|slugify|add:"_section_form" }}" >
                         <h5>{{ section.title }}</h5>
                         {{ section.content }}
-                        <button type="button" onclick="delete_section(this)">Delete Section</button>
+                        <button class="btn btn-secondary mr-1 mb-2" type="button" onclick="delete_section(this)">Delete Section</button>
                     </div>
                 {% endfor %}
                 </div>
-                <button type="button">New Section</button>
+                <button class="btn btn-secondary mr-1 mb-1" type="button">New Section</button>
             </div>
 
-            <div class="p-4 col-4">
+            <div class="p-4 col-sm-12 col-lg-5">
                 <div class="card">
                     <img src="image.jpg" class="card-img-top" alt="shrek baby">
                     {{ form.main_image }}
                     <div class="card-body">
                         <table class="table">
 
-                            <!-- ERASE when we have content -->
-                            <thead>
-                                <tr>
-                                    <th scope="col">Field</th>
-                                    <th scope="col">Value</th>
-                                </tr>
-                            </thead>
-                            <!-- till here -->
+{#                            <!-- ERASE when we have content -->#}
+{#                            <thead>#}
+{#                                <tr>#}
+{#                                    <th scope="col">Field</th>#}
+{#                                    <th scope="col">Value</th>#}
+{#                                </tr>#}
+{#                            </thead>#}
+{#                            <!-- till here -->#}
                             {{ form.side_card }}
                         </table>
-                        <button type="button" onclick="new_side_card_field()" >New field</button>
+                        <button class="btn btn-secondary" type="button" onclick="new_side_card_field()" >New field</button>
                     </div>
                 </div>
             </div>
         </div>
-        <button type="submit">Save Changes</button>
+        <button class="btn btn-secondary ml-2 mb-4" type="submit">Save Changes</button>
     </form>
     </div>
 
