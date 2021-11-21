@@ -2,8 +2,8 @@
 {% block content %}
 {% load custom_tags %}
 
-    <div class="px-3">
     <form action="/savearticle/" method="post" class="form-horizontal">
+    <div class="px-3">
         <div class="row">
             {% csrf_token %}
             <div class="p-4 col-sm-12 col-lg-7 bg-light text-dark">
@@ -19,7 +19,6 @@
                 <br>
 
                 <div id="section_formgroup">
-                {{ sectionset.management_form }}
                 {% for section in sectionset %}
                     <div id="{{ forloop.counter0|slugify|add:"_section_form" }}" >
                         <h5>{{ section.title }}</h5>
@@ -45,7 +44,6 @@
                 </div>
             </div>
         </div>
-    </form>
     </div>
 
     <footer class="bg-light text-center text-lg-start">
@@ -54,6 +52,7 @@
             <button class="btn btn-lg btn-success ml-2 mb-4" type="submit">Save Changes</button>
         </div>
     </footer>
+    </form>
 
     <script>
         // disable default input element behaviour for Enter key
@@ -111,12 +110,10 @@
             outer_div.appendChild(del_button)
 
             document.getElementById("section_formgroup").appendChild(outer_div)
-            document.getElementById("id_form-TOTAL_FORMS").value += 1
         }
 
         delete_section = (elem) => {
             elem.parentElement.remove()
-            document.getElementById("id_form-TOTAL_FORMS").value -= 1
         }
 
     </script>
