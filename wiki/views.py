@@ -11,21 +11,31 @@ from wiki.forms import ArticleForm, SectionFormSet
 
 # Create your views here.
 
-
 def article_list(request, search=""):
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
-    print(articles)
-    # print(articles[0].section_set.all())
 
     params = {
         "articles": articles,
         "search_prompt": search_prompt,
-        "articles_page": True
+        "articles_page": True,
     }
 
     return render(request, "article_list.html", params)
 
+def user_articles(request):
+
+    user = request.user
+    if user.is_superuser:
+        articles = Article.objects.all()
+    else:
+        articles = Article.objects.filter(created_by_user=user)
+
+    params = {
+        "articles": articles,
+    }
+
+    return render(request, "user_articles.html", params)
 
 def article_page(request, i):
     article = Article.objects.get(id=i)
@@ -111,6 +121,12 @@ def change_password(request):
         return render(request, "changePassword.html", params)
 
 def adminPage(request):
+    if request.POST:
+        action = request.POST['action']
+        if action == 'delete_article':
+            articleID = request.POST['articleID']
+            Article.objects.filter(id=articleID).delete()
+
     categories = Category.objects.all()
     articles = Article.objects.all()
     sections = Section.objects.all()
