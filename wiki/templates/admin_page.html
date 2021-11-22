@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <div class="d-flex justify-content-center mt-5"><h1>Profile page</h1></div>
+    {% if not user.is_authenticated %}
+        <div class="d-flex justify-content-center mt-5"><p class="text-danger">Please login to see this page.</p></div>
+    {% elif not user.is_superuser %}
+        <div class="d-flex justify-content-center mt-5"><p class="text-danger">You need admin permission level to see this page.</p></div>
+    {% else %}
+
+        <div class="container w-25 mt-3">
+            <h5 class="d-flex justify-content-center">Categories</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Popularity</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.popularity }}</td>
+                            <td><button type="button" class="btn btn-info">Edit</button></td>
+                            <td><button type="button" class="btn btn-danger">Delete</button></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container w-50 mt-3">
+            <h5 class="d-flex justify-content-center">Articles</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Creator</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.id }}</td>
+                            <td>
+                                {{ article.title }}
+                                <p style="font-size: small">{{ article.short_description }}</p>
+                            </td>
+                            <td>{{ article.date_created }}</td>
+                            <td>{{ article.created_by_user }}</td>
+{% comment %}                            <td><button type="button" class="btn btn-info">Edit</button></td>
+                            <td><button type="button" class="btn btn-danger">Delete</button></td>{% endcomment %}
+
+                            <td><a role="button" class="btn btn-info" style="color: white" href="/articles/edit/{{ article.id }}/">Edit</a></td>
+                            <td>
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group" style="display: none">
+                                        <input type="text" class="form-control" id="action" name="action" value="delete_article">
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <input type="text" class="form-control" id="articleID" name="articleID" value="{{ article.id }}">
+                                    </div>
+                                    <input type="submit" value="Delete" role="button" class="btn btn-danger"></input>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container w-25 mt-3">
+            <h5 class="d-flex justify-content-center">Sections</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Article ID</th>
+                        <th scope="col">Title</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for section in sections %}
+                        <tr>
+                            <td>{{ section.id }}</td>
+                            <td>{{ section.article_id }}</td>
+                            <td>{{ section.title }}</td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {% endif %}
+
+{% endblock %}

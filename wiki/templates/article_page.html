@@ -23,36 +23,28 @@
 
                 {% for section in article.section_set.all %}
                     <h3>{{ section.title }}</h3>
-{#                    {% for sub in section.subsection_set.all %}#}
-                            <div class="container mb-2">
-                                <div class="row ml-4">
-                                    {% for content in section.content %}
-                                        {% ifequal content.type "text" %}
-                                            <div class="col-12">
-                                                {{ content.value }}
-                                            </div>
-                                        {% endifequal %}
-                                        <br>
-                                    {% endfor %}
-
+                        <div class="container mb-2">
+                            <div class="row ml-4 mb-4">
+                                <div class="col-12">
+                                    {{ section.text }}
                                 </div>
                             </div>
-{#                    {% endfor %}#}
+                            {% if section.image %}
+                            <div class="row ml-4">
+                                <div class="col-12">
+                                    <img class="mw-100" src="{{ section.image.url }}" />
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
                 {% endfor %}
-
-                <!-- for every sub-section -->
-
-                <!-- ends here -->
-
             </div>
 
             <div class="p-4 col-4">
                 <div class="card">
-                    <img src={{ article.main_image.url }} class="card-img-top" alt="shrek baby">
+                    <img src={{ article.main_image.url }} class="card-img-top" alt="no image found">
                     <div class="card-body">
                         <table class="table">
-
-                            <!-- ERASE when we have content -->
                             {% if article.side_card %}
                                 <tbody>
                                     {% for card in article.side_card %}
