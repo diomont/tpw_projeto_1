@@ -3,14 +3,16 @@
 {% load custom_tags %}
 
 <div class="px-3">
-    <form enctype="multipart/form-data" id="sussyform" action="/savearticle/" method="post" class="form-horizontal" >
+    <form enctype="multipart/form-data" id="sussyform" action="." method="post" class="form-horizontal" >
         <div class="row">
             {% csrf_token %}
+            <input type="hidden" name="article-id" value="{{ id }}" />
             <div class="p-4 col-sm-12 col-lg-7 bg-light text-dark">
 
                 <h1 class="display-4">{{ form.title }}</h1>
                 <div class="d-flex flex-row-reverse mb-1">
                     {{ form.categories }}
+                    {{ form.edit_restriction_level }}
                     <!-- <button type="button" class="btn btn-outline-secondary">Category</button> -->
                 </div>
                 <h3>{{ form.short_description }}</h3>
