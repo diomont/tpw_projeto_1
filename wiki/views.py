@@ -62,6 +62,10 @@ def article_page(request, i):
 
 
 def new_article(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('/login/')
+
     if request.method == "POST":
         art_id = article_save(request)
         if art_id:
@@ -72,6 +76,10 @@ def new_article(request):
 
 
 def article_edit(request, i):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('/login/')
+
     if request.method == "POST":
         if article_save(request, i):
             return redirect("/articles/" + str(i))
