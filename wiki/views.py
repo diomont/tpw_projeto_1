@@ -125,7 +125,7 @@ def article_save(request, art_id=None):
         #     sect.save()
         #
         # print("categories:", categories)
-
+        print(form.errors)
         return False
 
 
