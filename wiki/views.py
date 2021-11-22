@@ -10,13 +10,7 @@ from wiki.forms import ArticleForm, SectionFormSet
 
 
 # Create your views here.
-
 def article_list(request, search=""):
-    users = User.objects.all().values()
-    for user in users:
-        print(user)
-        print("------------")
-
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
     if len(articles) == 0:
@@ -31,10 +25,6 @@ def article_list(request, search=""):
 
 
 def user_articles(request):
-
-    for article in Article.objects.all():
-        print(article.created_by_user)
-
     user = request.user
     if user.is_superuser or user.groups.filter(name='Mods').exists():
         articles = Article.objects.all()
@@ -44,7 +34,6 @@ def user_articles(request):
     params = {
         "articles": articles,
     }
-
     return render(request, "user_articles.html", params)
 
 
@@ -93,12 +82,7 @@ def article_edit(request, i):
 
 
 def article_save(request, art_id=None):
-    print("req.post:", request.POST)
-    print("request.files:", request.FILES)
-    # return redirect(article_list)
-
     if request.method == "POST":
-        # print("we gotcha fam")
         post: QueryDict = request.POST
 
         if art_id is not None:
@@ -142,28 +126,12 @@ def article_save(request, art_id=None):
             return inst.id
 
         print(form.errors)
-
-        #     sect = Section(
-        #         article=article,
-        #         position=i,
-        #         title=post["form-"+str(i)+"-title"]
-        #     )
-        #     text = post.get("form-"+str(i)+"-text")
-        #     if text is not None:
-        #         sect.text = text
-        #     img = request.FILES.get("form-"+str(i)+"-image")
-        #     if img is not None:
-        #         sect.image = img
-        #     i += 1
-        #     sect.save()
-        #
-        # print("categories:", categories)
-
         return False
 
 
 def main_page(request):
-    return render(request, "main_page.html")
+    articles = Article.objects.all()[:5]
+    return render(request, "main_page.html", {"articles": articles})
 
 
 def createAccount(request):
@@ -252,6 +220,7 @@ def adminPage(request):
 
     return render(request, "admin_page.html", params)
 
+
 def create_category(request):
     error = False
     just_created_category = False
@@ -259,7 +228,7 @@ def create_category(request):
         try:
             name = request.POST['name']
             popularity = int(request.POST['popularity'])
-            new_category = Category.objects.create(name=name,popularity=popularity)
+            Category.objects.create(name=name,popularity=popularity)
             just_created_category = True
         except:
             error = True
@@ -270,14 +239,14 @@ def create_category(request):
     }
     return render(request, "category_creation.html", params)
 
+
 def choose_category(request):
     categories = Category.objects.all()
-
     params = {
         "categories": categories,
     }
-
     return render(request, "chooseCategory.html", params)
+
 
 def category_edit(request, i):
     category = Category.objects.get(id=i)
@@ -302,6 +271,7 @@ def category_edit(request, i):
     }
 
     return render(request, "category_edition.html", params)
+
 
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):
