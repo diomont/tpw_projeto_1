@@ -1,26 +1,14 @@
-
-{
     [
         {
             name: "Appearances",
             value: [
-                {
-                    text: "Amogus the Anime S01",
-                    href: "fivjenri"
-                },
-                {
-                    text: "Sussy Bakas S03E11",
-                    href: ".../erjnverijn"
-                },
-                {
-                    text: "Suspicion: More than one impostor",
-                    href: null
-                }
+                "Amogus the Anime S01",
+                "Sussy Bakas S03E11",
+                "Suspicion: More than one impostor"
             ]
         },
         {
             name: "Age",
-            value: "1043"
+            value: ["1043"]
         },
     ]
-}

@@ -25,7 +25,7 @@ class Article(models.Model):
     main_image = models.ImageField(upload_to=upload_path)
 
     # JSON format should be verified in views.py code
-    side_card = models.JSONField()
+    side_card = models.JSONField(null=True, blank=True)
     categories = models.ManyToManyField(Category)
 
     date_created = models.DateTimeField(default=datetime.datetime.now)
@@ -54,7 +54,7 @@ class Section(models.Model):
     position = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=120)
     text = models.TextField()
-    image = models.ImageField(upload_to=upload_path)
+    image = models.ImageField(upload_to=upload_path, null=True, blank=True)
 
     def __str__(self):
         return self.title

@@ -27,7 +27,6 @@ urlpatterns = [
     path('article_page/', views.article_page),
     path('savearticle/', views.article_save),
     path('newarticle/', views.new_article),
-    path('', views.main_page),
     path('createAccount/', views.createAccount),
     path('articles/<int:i>/', views.article_page),
     path('articles/edit/<int:i>/', views.article_edit),
