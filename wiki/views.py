@@ -99,10 +99,13 @@ def article_save(request, art_id=None):
             try:
                 a = Article.objects.get(id=art_id)
                 form = ArticleForm(post, request.FILES, instance=a)
+                form.last_modified_by_user = request.user
             except Exception:
                 form = ArticleForm(post, request.FILES)
+                form.created_by_user = request.user
         else:
             form = ArticleForm(post, request.FILES)
+            form.created_by_user = request.user
 
         if form.is_valid():
             inst = form.save()
