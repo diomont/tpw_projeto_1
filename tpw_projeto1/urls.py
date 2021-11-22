@@ -38,6 +38,9 @@ urlpatterns = [
     path('changePassword/', views.change_password),
     path('adminPage/', views.adminPage),
     path('userArticles/', views.user_articles),
+    path('createCategory/', views.create_category),
+    path('chooseCategory/', views.choose_category),
+    path('categories/edit/<int:i>/', views.category_edit),
 ]
 
 urlpatterns += static(settings.MEDIA_URL,

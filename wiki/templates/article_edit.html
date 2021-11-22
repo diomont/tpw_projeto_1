@@ -2,8 +2,8 @@
 {% block content %}
 {% load custom_tags %}
 
-    <form action="/savearticle/" method="post" class="form-horizontal">
-    <div class="px-3">
+<div class="px-3">
+    <form enctype="multipart/form-data" id="sussyform" action="/savearticle/" method="post" class="form-horizontal" >
         <div class="row">
             {% csrf_token %}
             <div class="p-4 col-sm-12 col-lg-7 bg-light text-dark">

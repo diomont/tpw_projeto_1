@@ -30,6 +30,10 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/newarticle/">Create Article</a>
                     <a class="dropdown-item" href="/userArticles/">Edit Article</a>
+                    <a class="dropdown-item" href="/createCategory/">Create Category</a>
+                    {% if user.is_superuser or user|has_group:"Mods" %}
+                        <a class="dropdown-item" href="/chooseCategory/">Edit Category</a>
+                    {% endif %}
                 </div>
             </li>
             <li class="nav-item {% if profile_page %} active {% endif %}">

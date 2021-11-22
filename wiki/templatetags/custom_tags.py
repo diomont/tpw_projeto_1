@@ -25,3 +25,7 @@ def teste(value):
     """Updates a variable to value"""
     print("valor foda:", value)
     return value
+
+@register.filter(name='has_group')
+def has_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()

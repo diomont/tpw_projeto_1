@@ -29,11 +29,13 @@
                                     {{ section.text }}
                                 </div>
                             </div>
+                            {% if section.image %}
                             <div class="row ml-4">
                                 <div class="col-12">
                                     <img class="mw-100" src="{{ section.image.url }}" />
                                 </div>
                             </div>
+                            {% endif %}
                         </div>
                 {% endfor %}
             </div>
@@ -68,14 +70,27 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
+        <div class="d-flex justify-content-center m-2">
+            {% if isAdmin or isMod or isAuthor %}
+                <a role="button" class="btn btn-secondary" style="color: white; width: 200px; margin-right: 5px" href="/articles/edit/{{ article.id }}/">Edit</a>
+            {% endif %}
+
+            {% if isAdmin or isAuthor %}
+                <form action="." method="post">
+                    {% csrf_token %}
+                    <div class="form-group" style="display: none">
+                        <input type="text" class="form-control" id="action" name="action" value="delete_article">
+                    </div>
+                    <div class="form-group" style="display: none">
+                        <input type="text" class="form-control" id="articleID" name="articleID" value="{{ article.id }}">
+                    </div>
+                    <input type="submit" value="Delete" role="button" class="btn btn-danger" style="width: 200px; margin-left: 5px"></input>
+                </form>
+            {% endif %}
+        </div>
+
     </div>
-
-    <footer class="bg-light text-center text-lg-start">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            Footer for edit data
-        </div>
-    </footer>
 
 {% endblock %}

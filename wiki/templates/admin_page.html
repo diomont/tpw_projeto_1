@@ -24,8 +24,19 @@
                         <tr>
                             <td>{{ category.name }}</td>
                             <td>{{ category.popularity }}</td>
-                            <td><button type="button" class="btn btn-info">Edit</button></td>
-                            <td><button type="button" class="btn btn-danger">Delete</button></td>
+                            <td><a role="button" class="btn btn-info" style="color: white" href="/categories/edit/{{ category.id }}/">Edit</a></td>
+                            <td>
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group" style="display: none">
+                                        <input type="text" class="form-control" id="action" name="action" value="delete_category">
+                                    </div>
+                                    <div class="form-group" style="display: none">
+                                        <input type="text" class="form-control" id="categoryID" name="categoryID" value="{{ category.id }}">
+                                    </div>
+                                    <input type="submit" value="Delete" role="button" class="btn btn-danger"></input>
+                                </form>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -55,8 +66,6 @@
                             </td>
                             <td>{{ article.date_created }}</td>
                             <td>{{ article.created_by_user }}</td>
-{% comment %}                            <td><button type="button" class="btn btn-info">Edit</button></td>
-                            <td><button type="button" class="btn btn-danger">Delete</button></td>{% endcomment %}
 
                             <td><a role="button" class="btn btn-info" style="color: white" href="/articles/edit/{{ article.id }}/">Edit</a></td>
                             <td>
@@ -95,6 +104,60 @@
                             <td>{{ section.title }}</td>
 
                         </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container w-50 mt-3">
+            <h5 class="d-flex justify-content-center">Users</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        {% if user.username != "admin" %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                <td>{{ user.email }}</td>
+                                {% if not user|has_group:"Mods" %}
+                                    <td>
+                                        <form action="." method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group" style="display: none">
+                                                <input type="text" class="form-control" id="action" name="action" value="make_mod">
+                                            </div>
+                                            <div class="form-group" style="display: none">
+                                                <input type="text" class="form-control" id="userID" name="userID" value="{{ user.id }}">
+                                            </div>
+                                            <input type="submit" value="Make Mod" role="button" class="btn btn-info"></input>
+                                        </form>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <form action="." method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group" style="display: none">
+                                                <input type="text" class="form-control" id="action" name="action" value="unmake_mod">
+                                            </div>
+                                            <div class="form-group" style="display: none">
+                                                <input type="text" class="form-control" id="userID" name="userID" value="{{ user.id }}">
+                                            </div>
+                                            <input type="submit" value="Unmake Mod" role="button" class="btn btn-danger"></input>
+                                        </form>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
