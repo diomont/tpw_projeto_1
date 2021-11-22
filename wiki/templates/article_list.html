@@ -25,6 +25,11 @@
                                 <img class="card-img" style=" position: unset" src="{{ article.main_image.url }}" />
                             </div>
                         </div>
+                        <div class="d-flex flex-row-reverse mb-1">
+                            {% for category in article.categories.all %}
+                                <span class="badge ml-2 badge-secondary">{{ category.name }}</span>
+                            {% endfor %}
+                        </div>
                     </div>
                 </a>
             </div>
