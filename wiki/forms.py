@@ -7,11 +7,12 @@ from wiki.models import Article, Section
 class ImagePicker(forms.FileInput):
     template_name = "widgets/imagepicker.html"
 
-    def __init__(self, attrs=None):
-        super().__init__(attrs)
+    # def __init__(self, attrs=None):
+    #     super().__init__(attrs)
 
     def format_value(self, value):
         return value
+
 
 
 class SideCardWidget(forms.Widget):

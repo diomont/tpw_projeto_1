@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from wiki.models import Article, Section, Category
 from wiki.forms import ArticleForm
 from django.contrib.auth.models import User
@@ -42,15 +42,62 @@ def article_edit(request, i):
 
 
 def article_save(request):
+    print("req.post:", request.POST)
+    print("request.files:", request.FILES)
+    # return redirect(article_list)
 
     if request.method == "POST":
         print("we gotcha fam")
-        post = request.POST
+        post : QueryDict = request.POST
+        form = ArticleForm(post)
+        if form.is_valid():
+            print("valid form")
         art_id = 1
         article = Article.objects.get(id=art_id)
-        print(article)
-    print("req:", request)
-    print("req.post:", request.POST)
+        article.title = post["title"]
+        categories = [Category.objects.get(id=cat_id) for cat_id in post.getlist("categories")]
+        # article.categories.add(category for category in categories)
+        article.short_description = post["short_description"]
+        article.main_text = post["main_text"]
+        main_img = request.FILES.get("main_image")
+        if main_img is not None:
+            article.main_image = main_img
+        i = 0
+        dics = []
+        while post.get(str(i)+"_scard_entry_name") is not None:
+            dic = {}
+            key = post.get(str(i)+"_scard_entry_name")
+            values = post.get(str(i)+"_scard_entry_val").split("\r\n")
+            dic["name"] = key
+            dic["value"] = values
+            dics.append(dic)
+            i += 1
+        article.side_card = dics
+        article.save()
+        i = 0
+
+        # Apagar sections q ja existem, se n elas vaoficar repetidas
+        existing_sections = Section.objects.filter(article_id=art_id)
+        for sec in existing_sections:
+            sec.delete()
+        print("ex:", existing_sections)
+        while post.get("form-"+str(i)+"-title") is not None:
+            sect = Section(
+                article=article,
+                position=i,
+                title=post["form-"+str(i)+"-title"]
+            )
+            text = post.get("form-"+str(i)+"-text")
+            if text is not None:
+                sect.text = text
+            img = request.FILES.get("form-"+str(i)+"-image")
+            if img is not None:
+                sect.image = img
+            i += 1
+            sect.save()
+
+        print("categories:", categories)
+
 
     return redirect(article_list)
 
