@@ -10,12 +10,9 @@ from wiki.forms import ArticleForm, SectionFormSet
 
 
 # Create your views here.
+mods_error = False
 
 def article_list(request, search=""):
-    users = User.objects.all().values()
-    for user in users:
-        print(user)
-        print("------------")
 
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
@@ -31,9 +28,6 @@ def article_list(request, search=""):
 
 
 def user_articles(request):
-
-    for article in Article.objects.all():
-        print(article.created_by_user)
 
     user = request.user
     if user.is_superuser or user.groups.filter(name='Mods').exists():
@@ -93,12 +87,8 @@ def article_edit(request, i):
 
 
 def article_save(request, art_id=None):
-    print("req.post:", request.POST)
-    print("request.files:", request.FILES)
-    # return redirect(article_list)
 
     if request.method == "POST":
-        # print("we gotcha fam")
         post: QueryDict = request.POST
 
         if art_id is not None:
@@ -111,10 +101,8 @@ def article_save(request, art_id=None):
             form = ArticleForm(post, request.FILES)
 
         if form.is_valid():
-            print("valid form")
             inst = form.save()
             return inst.id
-        # print("form erros:", form.errors)
 
         # Apagar sections q ja existem, se n elas vaoficar repetidas
         # existing_sections = Section.objects.filter(article_id=art_id)
@@ -221,13 +209,16 @@ def adminPage(request):
     articles = Article.objects.all()
     sections = Section.objects.all()
     users = User.objects.all()
+    global mods_error
 
     params = {
         "categories": categories,
         "articles": articles,
         "sections": sections,
         "users": users,
+        "mods_error": mods_error,
     }
+    mods_error = False
 
     return render(request, "admin_page.html", params)
 
@@ -263,11 +254,9 @@ def category_edit(request, i):
 
     error = False
     if request.POST:
-        print(request.POST)
         try:
             name = request.POST['name']
             popularity = int(request.POST['popularity'])
-            print(category.popularity)
             category.name = name
             category.popularity = popularity
             category.save()
@@ -285,3 +274,8 @@ def category_edit(request, i):
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):
     return redirect(main_page)
+
+def does_not_exist(exception):
+    global mods_error
+    mods_error = True
+    return redirect('/adminPage/')
