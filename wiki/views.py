@@ -10,6 +10,8 @@ from wiki.forms import ArticleForm, SectionFormSet
 
 
 # Create your views here.
+mods_error = False
+
 def article_list(request, search=""):
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
@@ -95,7 +97,6 @@ def article_save(request, art_id=None):
             form = ArticleForm(post, request.FILES)
 
         if form.is_valid():
-            print("valid form")
             inst = form.save()
 
             for key, val in [(key, val) for key, val in post.items() if "-title" in key]:
@@ -124,8 +125,6 @@ def article_save(request, art_id=None):
                 sect.save()
 
             return inst.id
-
-        print(form.errors)
         return False
 
 
@@ -210,13 +209,16 @@ def adminPage(request):
     articles = Article.objects.all()
     sections = Section.objects.all()
     users = User.objects.all()
+    global mods_error
 
     params = {
         "categories": categories,
         "articles": articles,
         "sections": sections,
         "users": users,
+        "mods_error": mods_error,
     }
+    mods_error = False
 
     return render(request, "admin_page.html", params)
 
@@ -253,11 +255,9 @@ def category_edit(request, i):
 
     error = False
     if request.POST:
-        print(request.POST)
         try:
             name = request.POST['name']
             popularity = int(request.POST['popularity'])
-            print(category.popularity)
             category.name = name
             category.popularity = popularity
             category.save()
@@ -276,3 +276,8 @@ def category_edit(request, i):
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):
     return redirect(main_page)
+
+def does_not_exist(exception):
+    global mods_error
+    mods_error = True
+    return redirect('/adminPage/')
