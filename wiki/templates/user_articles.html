@@ -2,26 +2,31 @@
 {% block content %}
 
     <br>
-    {% for article in articles %}
-        <div class="card card-clickable mx-auto" style="width: 70%; margin-bottom: 2em">
-            <div class="card-header">
-            {{ article.title }}
-            </div>
-            <a href="/articles/edit/{{ article.id }}/">
-                <div class="card-body">
-                    <div class="row card-body">
-                        <div class="col-sm-10" style="display: flex; flex-direction: column; justify-content: center">
-                            <blockquote class="blockquote mb-0">
-                                <p>{{ article.short_description }}</p>
-                            </blockquote>
-                        </div>
-                        <div class="col-sm-2">
-                            <img class="card-img" style=" position: unset" src="{{ article.main_image.url }}" />
+    {% if articles %}
+        <div class="d-flex justify-content-center mt-3 mb-3"><h3>Choose an article to edit.</h3></div>
+        {% for article in articles %}
+            <div class="card card-clickable mx-auto" style="width: 70%; margin-bottom: 2em">
+                <div class="card-header">
+                {{ article.title }}
+                </div>
+                <a href="/articles/edit/{{ article.id }}/">
+                    <div class="card-body">
+                        <div class="row card-body">
+                            <div class="col-sm-10" style="display: flex; flex-direction: column; justify-content: center">
+                                <blockquote class="blockquote mb-0">
+                                    <p>{{ article.short_description }}</p>
+                                </blockquote>
+                            </div>
+                            <div class="col-sm-2">
+                                <img class="card-img" style=" position: unset" src="{{ article.main_image.url }}" />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
-    {% endfor %}
+                </a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="d-flex justify-content-center mt-3"><h5>No articles you can edit yet. <a href="/newarticle/">Create one!</a></h5></div>
+    {% endif %}
 
 {% endblock %}

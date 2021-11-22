@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, QueryDict
 from wiki.models import Article, Section, Category
 from wiki.forms import ArticleForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import authenticate, logout
 from wiki.models import Article, Section, Category
 from wiki.forms import ArticleForm, SectionFormSet
@@ -12,9 +12,15 @@ from wiki.forms import ArticleForm, SectionFormSet
 # Create your views here.
 
 def article_list(request, search=""):
+    users = User.objects.all().values()
+    for user in users:
+        print(user)
+        print("------------")
+
     search_prompt = f"{request.GET.get('search_prompt', '')}"
     articles = Article.objects.filter(title__icontains=search_prompt)
-
+    if len(articles) == 0:
+        articles = None
     params = {
         "articles": articles,
         "search_prompt": search_prompt,
@@ -26,8 +32,11 @@ def article_list(request, search=""):
 
 def user_articles(request):
 
+    for article in Article.objects.all():
+        print(article.created_by_user)
+
     user = request.user
-    if user.is_superuser:
+    if user.is_superuser or user.groups.filter(name='Mods').exists():
         articles = Article.objects.all()
     else:
         articles = Article.objects.filter(created_by_user=user)
@@ -40,9 +49,23 @@ def user_articles(request):
 
 
 def article_page(request, i):
+    if request.POST:
+        action = request.POST['action']
+        if action == 'delete_article':
+            articleID = request.POST['articleID']
+            Article.objects.filter(id=articleID).delete()
+            return redirect('/articles')
+
     article = Article.objects.get(id=i)
+    isAdmin = request.user.is_superuser
+    isMod = request.user.groups.filter(name='Mods').exists()
+    isAuthor = (article.created_by_user == request.user)
+
     params = {
         "article": article,
+        "isAdmin": isAdmin,
+        "isMod": isMod,
+        "isAuthor": isAuthor,
     }
     return render(request, "article_page.html", params)
 
@@ -197,19 +220,88 @@ def adminPage(request):
         if action == 'delete_article':
             articleID = request.POST['articleID']
             Article.objects.filter(id=articleID).delete()
+        elif action == 'delete_category':
+            categoryID = request.POST['categoryID']
+            Category.objects.filter(id=categoryID).delete()
+        elif action == 'make_mod':
+            userID = request.POST['userID']
+            users = User.objects.filter(id=userID)
+            mods = Group.objects.get(name='Mods')
+            for user in users:
+                if not user.groups.filter(name='Mods').exists():
+                    mods.user_set.add(user)
+        elif action == 'unmake_mod':
+            userID = request.POST['userID']
+            users = User.objects.filter(id=userID)
+            mods = Group.objects.get(name='Mods')
+            for user in users:
+                if user.groups.filter(name='Mods').exists():
+                    mods.user_set.remove(user)
 
     categories = Category.objects.all()
     articles = Article.objects.all()
     sections = Section.objects.all()
+    users = User.objects.all()
 
     params = {
         "categories": categories,
         "articles": articles,
         "sections": sections,
+        "users": users,
     }
 
     return render(request, "admin_page.html", params)
 
+def create_category(request):
+    error = False
+    just_created_category = False
+    if request.POST:
+        try:
+            name = request.POST['name']
+            popularity = int(request.POST['popularity'])
+            new_category = Category.objects.create(name=name,popularity=popularity)
+            just_created_category = True
+        except:
+            error = True
+
+    params = {
+        "error": error,
+        "just_created_category": just_created_category,
+    }
+    return render(request, "category_creation.html", params)
+
+def choose_category(request):
+    categories = Category.objects.all()
+
+    params = {
+        "categories": categories,
+    }
+
+    return render(request, "chooseCategory.html", params)
+
+def category_edit(request, i):
+    category = Category.objects.get(id=i)
+
+    error = False
+    if request.POST:
+        print(request.POST)
+        try:
+            name = request.POST['name']
+            popularity = int(request.POST['popularity'])
+            print(category.popularity)
+            category.name = name
+            category.popularity = popularity
+            category.save()
+            return redirect('/chooseCategory/')
+        except:
+            error = True
+
+    params = {
+        "category": category,
+        "error": error,
+    }
+
+    return render(request, "category_edition.html", params)
 
 # se DEBUG = False, inserir uma página que não existe irá redirecionar para a página principal
 def page_not_found(request, exception):
