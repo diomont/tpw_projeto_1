@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -26,8 +28,8 @@ class Article(models.Model):
     side_card = models.JSONField()
     categories = models.ManyToManyField(Category)
 
-    date_created = models.DateTimeField()
-    date_last_modified = models.DateTimeField()
+    date_created = models.DateTimeField(default=datetime.datetime.now)
+    date_last_modified = models.DateTimeField(default=datetime.datetime.now)
     created_by_user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
@@ -47,6 +49,7 @@ class Article(models.Model):
 
 
 class Section(models.Model):
+    id = models.BigAutoField(primary_key=True)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     position = models.PositiveSmallIntegerField()
     title = models.CharField(max_length=120)

@@ -1,4 +1,4 @@
-from django.db.models import QuerySet
+from django.db.models import QuerySet, ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, QueryDict
 from wiki.models import Article, Section, Category
@@ -29,6 +29,7 @@ def article_list(request, search=""):
 
     return render(request, "article_list.html", params)
 
+
 def user_articles(request):
 
     for article in Article.objects.all():
@@ -45,6 +46,7 @@ def user_articles(request):
     }
 
     return render(request, "user_articles.html", params)
+
 
 def article_page(request, i):
     if request.POST:
@@ -69,78 +71,74 @@ def article_page(request, i):
 
 
 def new_article(request):
+    if request.method == "POST":
+        art_id = article_save(request)
+        if art_id:
+            return redirect("/articles/" + str(art_id))
+
     form = ArticleForm()
     return render(request, "article_edit.html", {"form": form, "sectionset": []})
 
 
 def article_edit(request, i):
+    if request.method == "POST":
+        if article_save(request, i):
+            return redirect("/articles/" + str(i))
+
     article = Article.objects.get(id=i)
     form = ArticleForm(instance=article)
     sectionset = SectionFormSet(queryset=article.section_set.all())
 
-    return render(request, "article_edit.html", {"form": form, "sectionset": sectionset})
+    return render(request, "article_edit.html", {"form": form, "sectionset": sectionset, "id": i})
 
 
-def article_save(request):
+def article_save(request, art_id=None):
     print("req.post:", request.POST)
     print("request.files:", request.FILES)
     # return redirect(article_list)
 
     if request.method == "POST":
-        print("we gotcha fam")
-        post : QueryDict = request.POST
-        form = ArticleForm(post)
+        # print("we gotcha fam")
+        post: QueryDict = request.POST
+
+        if art_id is not None:
+            try:
+                a = Article.objects.get(id=art_id)
+                form = ArticleForm(post, request.FILES, instance=a)
+            except Exception:
+                form = ArticleForm(post, request.FILES)
+        else:
+            form = ArticleForm(post, request.FILES)
+
         if form.is_valid():
             print("valid form")
-        art_id = 1
-        article = Article.objects.get(id=art_id)
-        article.title = post["title"]
-        categories = [Category.objects.get(id=cat_id) for cat_id in post.getlist("categories")]
-        # article.categories.add(category for category in categories)
-        article.short_description = post["short_description"]
-        article.main_text = post["main_text"]
-        main_img = request.FILES.get("main_image")
-        if main_img is not None:
-            article.main_image = main_img
-        i = 0
-        dics = []
-        while post.get(str(i)+"_scard_entry_name") is not None:
-            dic = {}
-            key = post.get(str(i)+"_scard_entry_name")
-            values = post.get(str(i)+"_scard_entry_val").split("\r\n")
-            dic["name"] = key
-            dic["value"] = values
-            dics.append(dic)
-            i += 1
-        article.side_card = dics
-        article.created_by_user = request.user
-        article.save()
-        i = 0
+            inst = form.save()
+            return inst.id
+        # print("form erros:", form.errors)
 
         # Apagar sections q ja existem, se n elas vaoficar repetidas
-        existing_sections = Section.objects.filter(article_id=art_id)
-        for sec in existing_sections:
-            sec.delete()
-        print("ex:", existing_sections)
-        while post.get("form-"+str(i)+"-title") is not None:
-            sect = Section(
-                article=article,
-                position=i,
-                title=post["form-"+str(i)+"-title"]
-            )
-            text = post.get("form-"+str(i)+"-text")
-            if text is not None:
-                sect.text = text
-            img = request.FILES.get("form-"+str(i)+"-image")
-            if img is not None:
-                sect.image = img
-            i += 1
-            sect.save()
+        # existing_sections = Section.objects.filter(article_id=art_id)
+        # for sec in existing_sections:
+        #     sec.delete()
+        # print("ex:", existing_sections)
+        # while post.get("form-"+str(i)+"-title") is not None:
+        #     sect = Section(
+        #         article=article,
+        #         position=i,
+        #         title=post["form-"+str(i)+"-title"]
+        #     )
+        #     text = post.get("form-"+str(i)+"-text")
+        #     if text is not None:
+        #         sect.text = text
+        #     img = request.FILES.get("form-"+str(i)+"-image")
+        #     if img is not None:
+        #         sect.image = img
+        #     i += 1
+        #     sect.save()
+        #
+        # print("categories:", categories)
 
-        print("categories:", categories)
-
-
-    return redirect(article_list)
+        return False
 
 
 def main_page(request):
