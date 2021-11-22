@@ -90,15 +90,36 @@ def article_save(request, art_id=None):
         if form.is_valid():
             print("valid form")
             inst = form.save()
-            return inst.id
-        # print("form erros:", form.errors)
 
-        # Apagar sections q ja existem, se n elas vaoficar repetidas
-        # existing_sections = Section.objects.filter(article_id=art_id)
-        # for sec in existing_sections:
-        #     sec.delete()
-        # print("ex:", existing_sections)
-        # while post.get("form-"+str(i)+"-title") is not None:
+            for key, val in [(key, val) for key, val in post.items() if "-title" in key]:
+                section_number = key.split("-")[1]
+                section_name = post.get("form-" + section_number + "-title")
+                section_order = int(section_number)
+                section_text = post.get("form-" + section_number + "-text")
+                section_image = request.FILES.get("form-" + section_number + "-image")
+                section_id = post.get("form-" + section_number + "-id")
+
+                if section_id is None:
+                    sect = Section(
+                            article=inst,
+                            position=section_order,
+                            title=section_name,
+                            text=section_text,
+                            image=section_image
+                    )
+                else:
+                    sect = Section.objects.get(id=section_id)
+                    sect.position = section_order
+                    sect.title = section_name
+                    sect.text = section_text
+                    if section_image is not None:
+                        sect.image = section_image
+                sect.save()
+
+            return inst.id
+
+        print(form.errors)
+
         #     sect = Section(
         #         article=article,
         #         position=i,

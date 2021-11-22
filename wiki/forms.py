@@ -54,8 +54,9 @@ class ArticleForm(forms.ModelForm):
 
 
 # https://docs.djangoproject.com/en/3.2/ref/forms/fields/#creating-custom-fields
-SectionFormSet = forms.modelformset_factory(Section, fields=("title", "text", "image"), extra=0,
+SectionFormSet = forms.modelformset_factory(Section, fields=("id", "title", "text", "image"), extra=0,
     widgets={
+        "id": forms.HiddenInput(),
         "image": ImagePicker(),
         "title": forms.TextInput(attrs={
             "class": "form-control"
